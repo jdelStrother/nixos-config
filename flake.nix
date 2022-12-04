@@ -27,6 +27,7 @@
 
     # Other packages
     zig.url = "github:mitchellh/zig-overlay";
+    emacs-overlay.url  = "github:nix-community/emacs-overlay";
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: let
@@ -36,12 +37,13 @@
     overlays = [
       inputs.neovim-nightly-overlay.overlay
       inputs.zig.overlays.default
+      inputs.emacs-overlay.overlay
     ];
   in {
     nixosConfigurations.vm-aarch64 = mkVM "vm-aarch64" {
       inherit nixpkgs home-manager;
       system = "aarch64-linux";
-      user   = "mitchellh";
+      user   = "jon";
 
       overlays = overlays ++ [(final: prev: {
         # Example of bringing in an unstable package:
