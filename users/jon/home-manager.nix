@@ -4,8 +4,8 @@ let sources = import ../../nix/sources.nix;
 doomPackages = with pkgs; [
     binutils       # native-comp needs 'as', provided by this
     # 28.2 + native-comp
-    ((emacsPackagesFor emacsNativeComp).emacsWithPackages
-      (epkgs: [ epkgs.vterm ]))
+    ((emacsPackagesFor emacsUnstable).emacsWithPackages
+      (epkgs: [ epkgs.vterm epkgs.emacsql ]))
 
     ## Doom dependencies
     git
@@ -52,7 +52,7 @@ in {
     LANG = "en_US.UTF-8";
     LC_CTYPE = "en_US.UTF-8";
     LC_ALL = "en_US.UTF-8";
-    EDITOR = "nvim";
+    EDITOR = "emacs";
     PAGER = "less -FirSwX";
     MANPAGER = "sh -c 'col -bx | ${pkgs.bat}/bin/bat -l man -p'";
   };
@@ -63,6 +63,10 @@ in {
   xdg.configFile."i3/config".text = builtins.readFile ../mitchellh/i3;
   xdg.configFile."rofi/config.rasi".text = builtins.readFile ../mitchellh/rofi;
   xdg.configFile."devtty/config".text = builtins.readFile ../mitchellh/devtty;
+
+  xdg.configFile."doom/config.el".text = builtins.readFile ./doom/config.el;
+  xdg.configFile."doom/init.el".text = builtins.readFile ./doom/init.el;
+  xdg.configFile."doom/packages.el".text = builtins.readFile ./doom/packages.el;
 
   #---------------------------------------------------------------------
   # Programs
